@@ -24,6 +24,7 @@ jobs:
   gkeApply:
     uses: g14com0/actions/.github/workflows/apply.yml@main
     if: github.event_name != 'pull_request'
+    needs: [gkePlan]
     with:
       environment: gcfr
       pathToApply: terraform/gke
