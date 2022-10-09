@@ -1,7 +1,7 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: Create GKE cluster
+  name: CreateGkeCluster
   title: Create GKE cluster
   description: Create GKE cluster with Terraform and github actions
 spec:
