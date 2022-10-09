@@ -5,7 +5,7 @@ provider "google" {
 module "google_kubernetes_cluster" {
   source = "github.com/g14com0/terraform-modules//gke?ref=main"
 
-  name                     = "cluster-a"
+  name                     = ${{values.clusterName | dump}}
   project                  = ${{values.gcloudProject | dump}}
   remove_default_node_pool = false
 

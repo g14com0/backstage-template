@@ -12,19 +12,15 @@ spec:
     - title: Fill in some steps
       required:
         - name
-        - gcloudProject
         - repoUrl
       properties:
         name:
-          title: Name
+          title: Project name
           type: string
           description: Unique name of the component
           ui:autofocus: true
           ui:options:
             rows: 5
-        gcloudProject:
-          title: gcloudProject
-          type: string
         owner:
           title: Owner
           type: string
@@ -40,6 +36,20 @@ spec:
           ui:options:
             allowedHosts:
               - github.com
+              - dev.azure.com
+              - gitlab.com
+
+    - title: Cluster setup
+      required:
+        - gcloudProject
+        - clusterName
+      properties:
+        gcloudProject:
+          title: gcloudProject
+          type: string
+        clusterName:
+          title: clusterName
+          type: string
 
   steps:
     - id: fetch-base
@@ -51,6 +61,7 @@ spec:
           name: ${{ parameters.name }}
           owner: ${{ parameters.owner }}
           gcloudProject: ${{ parameters.gcloudProject }}
+          clusterName: ${{ parameters.clusterName }}
 
     - id: publish
       name: Publish
