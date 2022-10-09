@@ -1,4 +1,4 @@
-site_name: ${{values.name | dump}} Docs
+site_name: ${{values.name}} docs
 
 nav:
   - Home: index.md
