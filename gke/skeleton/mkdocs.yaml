@@ -3,5 +3,7 @@ site_name: ${{values.name}} docs
 nav:
   - Home: index.md
 
+docs_dir: './docs'
+
 plugins:
   - techdocs-core
