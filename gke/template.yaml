@@ -1,41 +1,37 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: terraform-gke
-  title: terraform-gke
-  description: terraform-gke
-  tags:
-    - terraform-gke
+  name: v1beta3-demo
+  title: Test Action template
+  description: scaffolder v1beta3 template demo
 spec:
-  owner: service@example.com
+  owner: backstage/techdocs-core
   type: service
   
   parameters:
-    - title: Provide component information
+    - title: Fill in some steps
       required:
-        - component_id
-        - owner
+        - name
       properties:
-        component_id:
+        name:
           title: Name
           type: string
           description: Unique name of the component
-        description:
-          title: Description
-          type: string
-          description: Add a description to explain the component
+          ui:autofocus: true
+          ui:options:
+            rows: 5
         owner:
           title: Owner
           type: string
           description: Owner of the component
           ui:field: OwnerPicker
           ui:options:
-            allowedKinds: 
+            allowedKinds:
               - Group
-    - title: Choose a location  
+    - title: Choose a location
       required:
         - repoUrl
-      properties: 
+      properties:
         repoUrl:
           title: Repository Location
           type: string
@@ -45,34 +41,34 @@ spec:
               - github.com
 
   steps:
-    - id: template
-      name: Fetch Skeleton + Template
+    - id: fetch-base
+      name: Fetch Base
       action: fetch:template
       input:
-        url: ./skeleton
-        copyWithoutRender:
-          - .github/workflows/*
+        url: ./template
         values:
-          component_id: '{{ parameters.component_id }}'
-          description: '{{ parameters.description }}'
-          owner: '{{ parameters.owner }}'
-          destination: '{{ parseRepoUrl parameters.repoUrl }}'
+          name: ${{ parameters.name }}
+          owner: ${{ parameters.owner }}
 
     - id: publish
       name: Publish
-      action: publish:azure
+      action: publish:github
       input:
         allowedHosts: ['github.com']
-        description: 'This is {{ parameters.component_id }}'
-        repoUrl: '{{ parameters.repoUrl }}'
+        description: This is ${{ parameters.name }}
+        repoUrl: ${{ parameters.repoUrl }}
 
     - id: register
       name: Register
       action: catalog:register
       input:
-        repoContentsUrl: '{{ steps.publish.output.repoContentsUrl }}'
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
         catalogInfoPath: '/catalog-info.yaml'
 
   output:
-    remoteUrl: '{{ steps.publish.output.remoteUrl }}'
-    entityRef: '{{ steps.register.output.entityRef }}'
+    links:
+      - title: Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
