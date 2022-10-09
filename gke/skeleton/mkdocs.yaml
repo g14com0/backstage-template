@@ -1,7 +1,7 @@
 site_name: ${{values.name}} docs
 
 nav:
-  - Home: readme.md
+  - Home: index.md
 
 docs_dir: './docs'
 
