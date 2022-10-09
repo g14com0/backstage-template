@@ -50,6 +50,7 @@ spec:
         values:
           name: ${{ parameters.name }}
           owner: ${{ parameters.owner }}
+          gcloudProject: ${{ parameters.gcloudProject }}
 
     - id: publish
       name: Publish
@@ -57,7 +58,6 @@ spec:
       input:
         allowedHosts: ['github.com']
         repoUrl: ${{ parameters.repoUrl }}
-        gcloudProject: ${{ parameters.gcloudProject }}
 
     - id: register
       name: Register
