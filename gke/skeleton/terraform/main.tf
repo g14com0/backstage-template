@@ -1,12 +1,12 @@
 provider "google" {
-  project = "cappottos"
+  project = "${{values.gcloudProject | dump}}"
 }
 
 module "google_kubernetes_cluster" {
   source = "github.com/g14com0/terraform-modules//gke?ref=main"
 
   name                     = "cluster-a"
-  project                  = "cappottos"
+  project                  = "${{values.gcloudProject | dump}}"
   remove_default_node_pool = false
 
   regions = "europe-west3"

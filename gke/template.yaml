@@ -12,6 +12,7 @@ spec:
     - title: Fill in some steps
       required:
         - name
+        - gcloudProject
       properties:
         name:
           title: Name
@@ -20,6 +21,9 @@ spec:
           ui:autofocus: true
           ui:options:
             rows: 5
+        gcloudProject:
+          title: gcloudProject
+          type: string
         owner:
           title: Owner
           type: string
@@ -57,6 +61,7 @@ spec:
         allowedHosts: ['github.com']
         description: This is ${{ parameters.name }}
         repoUrl: ${{ parameters.repoUrl }}
+        gcloudProject: ${{ parameters.gcloudProject }}
 
     - id: register
       name: Register

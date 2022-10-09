@@ -1,0 +1,43 @@
+---
+name: terraform
+on:
+  workflow_dispatch:
+  repository_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - terraform/**
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  gkePlan:
+    uses: g14com0/actions/.github/workflows/plan.yml@main
+    with:
+      environment: gcfr
+      pathToPlan: terraform/gke
+      #tfRoot: infra/gke
+    secrets:
+      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+  gkeApply:
+    uses: g14com0/actions/.github/workflows/apply.yml@main
+    if: github.event_name != 'pull_request'
+    needs: [gcaApply]
+    with:
+      environment: gcfr
+      pathToApply: terraform/gke
+    secrets:
+      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+  gkeDestroy:
+    uses: g14com0/actions/.github/workflows/destroy.yml@main
+    if: github.event_name != 'pull_request'
+    needs: [gkeApply]
+    with:
+      environment: gcfr-destroy
+      pathToDestroy: terraform/gke
+    secrets:
+      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
