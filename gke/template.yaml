@@ -1,9 +1,9 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: v1beta3-demo
-  title: Test Action template
-  description: scaffolder v1beta3 template demo
+  name: Create GKE cluster
+  title: Create GKE cluster
+  description: Create GKE cluster with Terraform and github actions
 spec:
   owner: backstage/techdocs-core
   type: service
@@ -13,6 +13,7 @@ spec:
       required:
         - name
         - gcloudProject
+        - repoUrl
       properties:
         name:
           title: Name
@@ -32,10 +33,6 @@ spec:
           ui:options:
             allowedKinds:
               - Group
-    - title: Choose a location
-      required:
-        - repoUrl
-      properties:
         repoUrl:
           title: Repository Location
           type: string
@@ -59,7 +56,6 @@ spec:
       action: publish:github
       input:
         allowedHosts: ['github.com']
-        description: This is ${{ parameters.name }}
         repoUrl: ${{ parameters.repoUrl }}
         gcloudProject: ${{ parameters.gcloudProject }}
 

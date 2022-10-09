@@ -2,7 +2,7 @@ terraform {
   required_version = ">= 1.3.0"
 
   backend "gcs" {
-    bucket = "${{values.gcloudProject | dump}}"
+    bucket = "${{values.gcloudProject}}"
     prefix = "gke/terraform/state"
   }
 
