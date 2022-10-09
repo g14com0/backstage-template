@@ -18,14 +18,12 @@ jobs:
     with:
       environment: gcfr
       pathToPlan: terraform/gke
-      #tfRoot: infra/gke
     secrets:
       GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
 
   gkeApply:
     uses: g14com0/actions/.github/workflows/apply.yml@main
     if: github.event_name != 'pull_request'
-    needs: [gcaApply]
     with:
       environment: gcfr
       pathToApply: terraform/gke
